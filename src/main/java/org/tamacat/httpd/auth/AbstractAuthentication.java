@@ -51,23 +51,29 @@ public abstract class AbstractAuthentication implements Authentication {
 		}
 		//invalidateHttpSession(req, context);
 		if (encrypted) {
-			password = RequestUtils.getParameter(context, "encrypted");
+			String _password = RequestUtils.getParameter(context, "encrypted");
+			if (StringUtils.isNotEmpty(_password)) {
+				password = _password;
+			}
 			if (StringUtils.isEmpty(password)) {
 				return false;
 			}
 		}
 		String key = RequestUtils.getParameter(context, loginKey);
-		if (checkOneTimePassword(key, req) == false) {
+		if (StringUtils.isNotEmpty(key) && checkOneTimePassword(key, req) == false) {
 			LOG.trace("OneTimePassword=false : " + key);
 			return false;
 		}
-		// LOG.trace("login username=" + username + ", password=" + password);
+		//LOG.debug("login username=" + username + ", password=" + password);
 		LoginUser user = getUser(username);
 		if (user == null || user.isEncrypted() != encrypted || StringUtils.isEmpty(user.getUserId())
 				|| StringUtils.isEmpty(user.getPassword())) {
 			return false;
 		}
-		String authPassword = getMessageDigest(user.getPassword() + key).toLowerCase();
+		String authPassword = user.getPassword();
+		if (StringUtils.isNotEmpty(key)) {
+			authPassword = getMessageDigest(user.getPassword() + key).toLowerCase();
+		}
 		boolean check = user.getUserId().equals(username) && authPassword.equals(password);
 		if (check) {
 			context.setAttribute(USER, user);
