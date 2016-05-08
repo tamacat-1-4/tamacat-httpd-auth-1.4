@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="/common/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/common/css/login.css" rel="stylesheet" />
+	<script src="/common/js/require.js" data-main="/common/js/login"></script>
+	<title>PORTAL</title>
+</head>
+<body>
+	<div id="main" class="container-fluid">
+		<div id="login" class="row">
+			<div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4">
+				<div class="text-center">
+					<h3>Portal Logout</h3>
+					<p>Thank you for using our services.</p>
+				</div>
+				<div class="text-center">
+					<a href="/login.html"><i class="icon-plug"></i> <span>Login</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<h2>Copyright 2015 tamacat.org</h2>
+	</footer>
+</body>
+</html>

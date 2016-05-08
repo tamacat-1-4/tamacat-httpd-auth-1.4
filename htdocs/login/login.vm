@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="/common/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/common/css/login.css" rel="stylesheet" />
+	<script src="/common/js/require.js" data-main="/common/js/login" charset="UTF-8"></script>
+	<title>LOGIN</title>
+</head>
+<body>
+	<div id="main" class="container-fluid">
+		<div id="login" class="row">
+			<form id="login-form" action="javascript:void(0)" method="post">
+				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
+
+					<div class="row">
+						<div class="col-xs-4 col-sm-4">
+							<p class="text-center">
+								<i class="icon-lock-filled large"></i>
+							</p>
+						</div>
+						<div class="col-xs-6 col-sm-6">
+
+							<div class="text-center">
+								<h3>LOGIN</h3>
+							</div>
+							<div class="form-group">
+								<label class="control-label"><i class="icon-adult"></i> Username</label>
+								<input id="login-username" type="text" name="j_username" class="form-control" autofocus required />
+							</div>
+							<div class="form-group">
+								<label class="control-label"><i class="icon-key"></i> Password</label>
+								<input id="login-password" type="password" name="j_password" class="form-control" required />
+								<input id="login-encrypted" type="hidden" name="encrypted" />
+								<input id="login-key" type="hidden" name="key" value="$!key" />
+							</div>
+							<div class="text-center">
+								<button type="submit" class="btn btn-primary btn-sm">
+									<i class="icon-right-circled"></i> Login
+								</button>
+							</div>
+							
+						</div>
+						<div class="col-xs-offset-2 col-xs-9 col-sm-10 text-center">
+							#if($!login_error)
+							<div class="alert alert-warning alert-dismissible fade in section" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<strong><i class="icon-warning"></i> Login failed.</strong> The Username or Password is incorrect.
+							</div>
+							#end
+							<div id="login-message" class="section"></div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<footer>
+		<h2>Copyright 2015 tamacat.org</h2>
+	</footer>
+</body>
+</html>

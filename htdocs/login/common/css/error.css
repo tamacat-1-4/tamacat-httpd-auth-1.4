@@ -1,0 +1,33 @@
+@charset "utf-8";
+/*!
+ * error css v1.0 (http://tamacat.org)
+ * Copyright 2014 tamacat.org
+ * Licensed under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+/*-----------------------
+    Error Page Styles
+------------------------*/
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	background: #fff;
+	font-size: 1em;
+}
+
+body {
+	font-family:'Lucida Grande','Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+	font-size: 12px;
+}
+
+.error-container {
+	background: #fff;
+	padding: 1em;
+}
+h1 { font-size: 1.2em; }
+
+p { font-size: 1em; }

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+	<bean id="oneTimePassword" class="org.tamacat.auth.TimeBasedOneTimePassword">
+		<property name="oneTimePasswordPeriod">
+			<value>15</value>
+		</property>
+	</bean>
+
+	<bean id="auth" class="org.tamacat.httpd.auth.DBAuthentication" singleton="true">
+		<property name="tableName">
+			<value>users</value>
+		</property>
+		<property name="userKey">
+			<value>user_id</value>
+		</property>
+		<property name="passwordKey">
+			<value>password</value>
+		</property>
+		<property name="saltKey">
+			<value>salt</value>
+		</property>
+		<property name="roleKey">
+			<value>role</value>
+		</property>
+		<property name="columns">
+			<value>username,email</value>
+		</property>
+		<property name="maxCacheSize">
+			<value>100</value>
+		</property>
+		<property name="cacheExpire">
+			<value>60000</value>
+		</property>
+		<property name="secretKey">
+			<value>secret1234567890</value>
+		</property>
+		<property name="oneTimePassword">
+			<ref bean="oneTimePassword" />
+		</property>
+		<property name="startUrl">
+			<value>/service/app/portal/main</value>
+		</property>
+		<property name="secureCookie">
+			<value>false</value>
+		</property>
+	</bean>
+
+	<bean id="FormAuthentication" class="org.tamacat.httpd.auth.FormAuthenticationProcessor">
+		<property name="docsRoot">
+			<value>${server.home}/htdocs/login/</value>
+		</property>
+		<property name="authentication">
+			<ref bean="auth" />
+		</property>
+		<property name="freeAccessUrl">
+			<value>/common/</value>
+		</property>
+		<property name="freeAccessExtensions">
+			<value>.css,.js,.map,.woff,.eot,.svg,.jpg,.png,.ico</value>
+		</property>
+	</bean>
+
+	<bean id="OpenIdConnectAuthentication" class="org.tamacat.httpd.auth.OpenIdConnectAuthProcessor">
+		<property name="freeAccessExtensions">
+			<value>.css,.js,.map,.woff,.eot,.svg,.jpg,.png,.ico</value>
+		</property>
+		<property name="scope">
+			<value>openid,email,profile</value>
+		</property>
+		<property name="responseTypes">
+			<value>code</value>
+		</property>
+	</bean>
+
+	<bean id="AccessLogFilter" class="org.tamacat.httpd.filter.AccessLogFilter" />
+
+	<bean id="VelocityHandler" class="org.tamacat.httpd.handler.VelocityHttpHandler">
+		<property name="docsRoot">
+			<value>${server.home}/htdocs/login/</value>
+		</property>
+		<property name="httpFilter">
+			<ref bean="AccessLogFilter" />
+		</property>
+		<!-- 
+		<property name="httpFilter" >
+			<ref bean="FormAuthentication" />
+		</property>
+		-->
+	</bean>
+
+	<bean id="ReverseHandler" class="org.tamacat.httpd.handler.ReverseProxyHandler">
+		<property name="httpFilter">
+			<ref bean="AccessLogFilter" />
+		</property>
+		<property name="httpFilter" >
+			<ref bean="FormAuthentication" />
+		</property>
+		<property name="httpResponseInterceptor" mode="add">
+			<ref bean="html" />
+		</property>
+	</bean>
+
+	<bean id="SSOReverseHandler" class="org.tamacat.httpd.handler.ReverseProxyHandler">
+		<property name="httpFilter">
+			<ref bean="AccessLogFilter" />
+		</property>
+		<property name="httpFilter" >
+			<ref bean="OpenIdConnectAuthentication" />
+		</property>
+		<property name="httpResponseInterceptor" mode="add">
+			<ref bean="html" />
+		</property>
+	</bean>
+
+	<bean id="html" class="org.tamacat.httpd.filter.HtmlLinkConvertInterceptor">
+		<property name="contentType">
+			<value>html</value>
+		</property>
+	</bean>
+</beans>

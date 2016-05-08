@@ -1,0 +1,33 @@
+[
+	{
+		"id":"test01.example.com",
+		"domain":"test01.example.com",
+		"idp":"OpenAM",
+		"authorization_endpoint":"http://sso.example.local/oauth2/authorize",
+		"token_endpoint":"http://sso.example.local/oauth2/token",
+		"callback_uri":"http://localhost/sso/login/test01.example.com/oauth2callback",
+		"redirect_uri":"http://localhost/sso/",
+		"client_id":"abcdefg",
+		"client_secret":"1234567890",
+		"upn":"subject",
+		"profile":["user_name","email"]
+	},
+	{
+		"id":"tamacat.org",
+		"domain":"tamacat.org",
+		"idp":"idp.tamacat.org",
+		"authorization_endpoint":"http://idp.tamacat.org:8088/openam/oauth2/authorize",
+		"token_endpoint":"http://idp.tamacat.org:8088/openam/oauth2/access_token",
+		"check_session_iframe":"http://idp.tamacat.org:8088/openam/oauth2/connect/checkSession",
+		"callback_uri":"http://localhost/sso/login/tamacat.org/oauth2callback",
+		"end_session_endpoint":"http://idp.tamacat.org:8888/openam/oauth2/connect/endSession",
+		"userinfo_endpoint":"http://idp.tamacat.org:8888/openam/oauth2/userinfo",
+		"redirect_uri":"http://localhost/sso/app/portal/main",
+		"registration_uri":"http://localhost/sso/app/user/register",
+		"client_id":"test",
+		"client_secret":"password",
+		"upn":"subject",
+		"profile":["user_name","email"],
+		"configuration":"http://idp.tamacat.org:8888/openam/.well-known/openid-configuration"
+	}
+]

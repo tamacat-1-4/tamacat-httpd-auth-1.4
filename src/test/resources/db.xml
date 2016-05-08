@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="default" class="org.tamacat.sql.DriverManagerJdbcConfig" singleton="true">
+		<property name="driverClass">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value><![CDATA[
+			jdbc:mysql://localhost:3306/testapp?useCompression=true&useUnicode=true&characterEncoding=utf8&dumpQueriesOnException=true
+			]]></value>
+		</property>
+		<property name="user">
+			<value>test</value>
+		</property>
+		<property name="password">
+			<value>test</value>
+		</property>
+		<property name="maxPools">
+			<value> 10</value>
+		</property>
+		<property name="minPools">
+			<value> 0</value>
+		</property>
+		<property name="activateSQL">
+			<value>SELECT 1</value>
+		</property>
+	</bean>
+</beans>

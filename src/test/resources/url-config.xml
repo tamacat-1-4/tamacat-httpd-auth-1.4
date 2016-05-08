@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+	<service>
+		<url path="/" type="normal" handler="VelocityHandler" />
+		<url path="/examples/" type="reverse" handler="SSOReverseHandler">
+			<reverse>http://localhost:8080/examples/</reverse>
+		</url>
+
+		<url path="/service/" type="reverse" handler="ReverseHandler">
+			<reverse>http://localhost:8080/service/</reverse>
+		</url>
+		
+		<url path="/sso/" type="reverse" handler="SSOReverseHandler">
+			<reverse>http://localhost:8080/sso/</reverse>
+		</url>
+	</service>
+</service-config>
