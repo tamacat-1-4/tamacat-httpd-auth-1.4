@@ -86,14 +86,16 @@ public abstract class AbstractAuthentication implements Authentication {
 		this.oneTimePassword = oneTimePassword;
 	}
 
-	public boolean checkOneTimePassword(String key, HttpRequest req) {
+	protected boolean checkOneTimePassword(String key, HttpRequest req) {
 		return oneTimePassword != null && oneTimePassword.check(getSecretKey(), key);
 	}
 
+	@Override
 	public String generateOneTimePassword() {
 		return oneTimePassword != null ? oneTimePassword.generate(getSecretKey()) : null;
 	}
 
+	@Override
 	public abstract LoginUser getUser(String username);
 
 	protected String getUserSalt(String username) {
@@ -103,10 +105,10 @@ public abstract class AbstractAuthentication implements Authentication {
 	@Override
 	public String check(HttpRequest req, HttpResponse resp, HttpContext context) {
 		String session = HeaderUtils.getCookieValue(req, singleSignOnSessionKey);
-		LOG.trace("check session=" + session);
+		LOG.debug("check session=" + session);
 		if (StringUtils.isNotEmpty(session) && checkSessionId(req, context, session)) {
 			String decrypted = decryptSession(session);
-			LOG.trace("decryptSession=" + decrypted);
+			LOG.debug("decryptSession=" + decrypted);
 			if (decrypted != null) {
 				SingleSignOnSession sso = SingleSignOnSession.parseSession(decrypted);
 				if (sso != null) {
@@ -125,6 +127,7 @@ public abstract class AbstractAuthentication implements Authentication {
 		return null;
 	}
 
+	@Override
 	public void activate(HttpRequest req, HttpResponse resp, HttpContext context, String username, String salt) {
 		long time = System.nanoTime();
 		LoginUser user = (LoginUser) context.getAttribute(USER);
@@ -149,14 +152,16 @@ public abstract class AbstractAuthentication implements Authentication {
 		}
 	}
 	
-	public String getSecretKey() {
+	protected String getSecretKey() {
 		return EncryptSessionUtils.getSecretKey();
 	}
 	
+	@Override
 	public String encryptSession(String session) {
 		return EncryptSessionUtils.encryptSession(session);
 	}
 	
+	@Override
 	public String decryptSession(String session) {
 		return EncryptSessionUtils.decryptSession(session);
 	}
@@ -208,7 +213,7 @@ public abstract class AbstractAuthentication implements Authentication {
 		return false;
 	}
 
-	public String getStartUrl() {
+	protected String getStartUrl() {
 		return startUrl;
 	}
 
@@ -216,7 +221,7 @@ public abstract class AbstractAuthentication implements Authentication {
 		this.startUrl = startUrl;
 	}
 
-	public String getLoginPage() {
+	protected String getLoginPage() {
 		return loginPage;
 	}
 
@@ -224,7 +229,7 @@ public abstract class AbstractAuthentication implements Authentication {
 		this.loginPage = loginPage;
 	}
 
-	public String getLogoutPage() {
+	protected String getLogoutPage() {
 		return logoutPage;
 	}
 
