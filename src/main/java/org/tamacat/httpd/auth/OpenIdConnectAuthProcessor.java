@@ -335,7 +335,7 @@ public class OpenIdConnectAuthProcessor implements RequestFilter, ResponseFilter
 	}
 
 	protected void callback(HttpRequest req, HttpResponse resp, HttpContext context) {
-		RequestUtils.setParameters(req, context, "UTF-8");
+		RequestUtils.parseParameters(req, context, "UTF-8");
 		String code = RequestUtils.getParameter(context, "code");
 		String error = RequestUtils.getParameter(context, "error");
 		String errorDescription = RequestUtils.getParameter(context, "error_description");

@@ -29,6 +29,18 @@ public class OpenIdConnectConfigLoader {
 	static final String REGISTRATION_URI = "registration_uri";
 	static final String SERVICE_URI = "service_uri";
 
+	public OpenIdConnectConfig loadOpenIdConnectConfig(String file) {
+		JsonReader reader = null;
+		try {
+			reader = Json.createReader(ClassUtils.getURL(file).openStream());
+			return parseOpenIdConnectConfig(reader);
+		} catch (IOException e) {
+			throw new RuntimeIOException(e);
+		} finally {
+			IOUtils.close(reader);
+		}
+	}
+	
 	public Map<String, OpenIdConnectConfig> load(String file) {
 		Map<String, OpenIdConnectConfig> configs = new LinkedHashMap<>();
 		JsonReader reader = null;
@@ -37,33 +49,9 @@ public class OpenIdConnectConfigLoader {
 			for (JsonValue val : reader.readArray()) {
 				if (ValueType.OBJECT == val.getValueType()) {
 					String data = val.toString();
-					JsonReader r = Json.createReader(new StringReader(data));
-					JsonObject o = r.readObject();
-					String id = o.getString("id", "");
-					String domain = o.getString("domain", "");
-					if (StringUtils.isNotEmpty(id) && StringUtils.isNotEmpty(domain)) {
-						OpenIdConnectConfig config = new OpenIdConnectConfig();
-						config.setId(id);
-						config.setDomain(domain);
-						config.setAuthorizationEndpoint(o.getString(AUTHORIZATION_ENDPOINT, ""));
-						config.setTokenEndpoint(o.getString(TOKEN_ENDPOINT, ""));
-						config.setCheckSessionIframe(o.getString(CHECK_SESSION_IFRAME, ""));
-						config.setClientId(o.getString(CLIENT_ID, ""));
-						config.setClientSecret(o.getString(CLIENT_SECRET, ""));
-						config.setCallbackUri(o.getString(CALLBACK_URI, ""));
-						config.setRedirectUri(o.getString(REDIRECT_URI, ""));
-						config.setRegistrationUri(o.getString(REGISTRATION_URI, ""));
-						config.setServiceUri(o.getString(SERVICE_URI, ""));
-						//config.setParam("idp", o.getString("idp", ""));
-						config.setUpn(o.getString("upn", ""));
-						JsonArray keys = o.getJsonArray("profile");
-						UserProfile profile = new UserProfile();
-						if (keys != null && keys.size() > 0) {
-							for (int i=0; i<keys.size(); i++) {
-								profile.addKeys(keys.getString(i));
-							}
-							config.setProfile(profile);
-						}
+					OpenIdConnectConfig config = parseOpenIdConnectConfig(data);
+					String id = config.getId();
+					if (StringUtils.isNotEmpty(id)) {
 						configs.put(id, config);
 					}
 				}
@@ -74,5 +62,40 @@ public class OpenIdConnectConfigLoader {
 			IOUtils.close(reader);
 		}
 		return configs;
+	}
+	
+	public OpenIdConnectConfig parseOpenIdConnectConfig(String data) {
+		return parseOpenIdConnectConfig(Json.createReader(new StringReader(data)));
+	}
+	
+	public OpenIdConnectConfig parseOpenIdConnectConfig(JsonReader r) {
+		OpenIdConnectConfig config = new OpenIdConnectConfig();
+		JsonObject o = r.readObject();
+		String id = o.getString("id", "");
+		String domain = o.getString("domain", "");
+		if (StringUtils.isNotEmpty(id) && StringUtils.isNotEmpty(domain)) {
+			config.setId(id);
+			config.setDomain(domain);
+			config.setAuthorizationEndpoint(o.getString(AUTHORIZATION_ENDPOINT, ""));
+			config.setTokenEndpoint(o.getString(TOKEN_ENDPOINT, ""));
+			config.setCheckSessionIframe(o.getString(CHECK_SESSION_IFRAME, ""));
+			config.setClientId(o.getString(CLIENT_ID, ""));
+			config.setClientSecret(o.getString(CLIENT_SECRET, ""));
+			config.setCallbackUri(o.getString(CALLBACK_URI, ""));
+			config.setRedirectUri(o.getString(REDIRECT_URI, ""));
+			config.setRegistrationUri(o.getString(REGISTRATION_URI, ""));
+			config.setServiceUri(o.getString(SERVICE_URI, ""));
+			//config.setParam("idp", o.getString("idp", ""));
+			config.setUpn(o.getString("upn", ""));
+			JsonArray keys = o.getJsonArray("profile");
+			UserProfile profile = new UserProfile();
+			if (keys != null && keys.size() > 0) {
+				for (int i=0; i<keys.size(); i++) {
+					profile.addKeys(keys.getString(i));
+				}
+				config.setProfile(profile);
+			}
+		}
+		return config;
 	}
 }
