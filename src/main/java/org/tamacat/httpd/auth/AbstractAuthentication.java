@@ -4,7 +4,6 @@
  */
 package org.tamacat.httpd.auth;
 
-import java.net.HttpCookie;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.cookie.BasicClientCookie;
@@ -168,10 +167,8 @@ public abstract class AbstractAuthentication implements Authentication {
 
 	@Override
 	public void logout(HttpRequest req, HttpResponse resp, HttpContext context, String username) {
-		HttpCookie cookie = new HttpCookie(singleSignOnSessionKey, "");
-		cookie.setPath(singleSignOnCookiePath);
-		cookie.setMaxAge(0);
-		resp.setHeader("Set-Cookie", cookie.toString());
+		resp.addHeader("Set-Cookie", singleSignOnSessionKey+"=; Path="+singleSignOnCookiePath+"; expires=Thu, 1-Jan-1970 00:00:00 GMT");
+		resp.addHeader("Set-Cookie", singleSignOnProfileKey+"=; Path="+singleSignOnCookiePath+"; expires=Thu, 1-Jan-1970 00:00:00 GMT");
 	}
 
 	protected String generateSessionId(String username, String salt, long time) {
