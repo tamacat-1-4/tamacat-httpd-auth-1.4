@@ -145,7 +145,7 @@ public abstract class AbstractAuthentication implements Authentication {
 		
 		String profile = user.toJson();
 		if (profile != null) {
-			BasicClientCookie profileCookie = new BasicClientCookie("SSOProfile", encryptSession(profile));
+			BasicClientCookie profileCookie = new BasicClientCookie(singleSignOnProfileKey, encryptSession(profile));
 			profileCookie.setPath(singleSignOnCookiePath);
 			resp.addHeader("Set-Cookie", HeaderUtils.getSetCookieValue(profileCookie, isHttpOnlyCookie, isSecureCookie));
 		}

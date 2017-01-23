@@ -221,7 +221,7 @@ public class DBAuthentication extends AbstractAuthentication {
 		}
 	}
 	
-	protected void init() {
+	public void init() {
 		if (maxCacheSize > 0 && cacheExpire > 0) {
 			cache = new LoginUserCache(maxCacheSize, cacheExpire);
 		} else {
