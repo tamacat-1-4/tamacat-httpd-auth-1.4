@@ -28,6 +28,7 @@ public class OpenIdConnectConfigLoader {
 	static final String REDIRECT_URI = "redirect_uri";
 	static final String REGISTRATION_URI = "registration_uri";
 	static final String SERVICE_URI = "service_uri";
+	static final String JWKS_URI = "jwks_uri";
 
 	public OpenIdConnectConfig loadOpenIdConnectConfig(String file) {
 		JsonReader reader = null;
@@ -85,6 +86,7 @@ public class OpenIdConnectConfigLoader {
 			config.setRedirectUri(o.getString(REDIRECT_URI, ""));
 			config.setRegistrationUri(o.getString(REGISTRATION_URI, ""));
 			config.setServiceUri(o.getString(SERVICE_URI, ""));
+			config.setJwksUri(o.getString(JWKS_URI, ""));
 			//config.setParam("idp", o.getString("idp", ""));
 			config.setUpn(o.getString("upn", ""));
 			JsonArray keys = o.getJsonArray("profile");

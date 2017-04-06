@@ -20,6 +20,7 @@ public class OpenIdConnectConfig {
 	protected String serviceUri;
 	protected String clientId;
 	protected String clientSecret;
+	protected String jwksUri; //add 1.4
 
 	protected String upn;
 	protected Profile profile;
@@ -143,6 +144,14 @@ public class OpenIdConnectConfig {
 	public void setUpn(String upn) {
 		this.upn = upn;
 	}
+	
+	public String getJwksUri() {
+		return jwksUri;
+	}
+	
+	public void setJwksUri(String jwksUri) {
+		this.jwksUri = jwksUri;
+	}
 
 	@Override
 	public String toString() {
@@ -155,6 +164,6 @@ public class OpenIdConnectConfig {
 				+ ", redirectUri=" + redirectUri + ", registrationUri="
 				+ registrationUri + ", serviceUri=" + serviceUri
 				+ ", clientId=" + clientId + ", clientSecret=" + clientSecret
-				+ ", upn=" + upn + ", profile=" + profile + "]";
+				+ ", upn=" + upn + ", profile=" + profile + ", jwks_uri=" + jwksUri + "]";
 	}
 }
