@@ -22,6 +22,8 @@ public class OpenIdConnectConfigLoader {
 	static final String AUTHORIZATION_ENDPOINT = "authorization_endpoint";
 	static final String TOKEN_ENDPOINT = "token_endpoint";
 	static final String CHECK_SESSION_IFRAME = "check_session_iframe";
+	static final String END_SESSION_ENDPOINT = "end_session_endpoint";
+	static final String USERINFO_ENDPOINT = "userinfo_endpoint";
 	static final String CLIENT_ID = "client_id";
 	static final String CLIENT_SECRET = "client_secret";
 	static final String CALLBACK_URI = "callback_uri";
@@ -80,6 +82,8 @@ public class OpenIdConnectConfigLoader {
 			config.setAuthorizationEndpoint(o.getString(AUTHORIZATION_ENDPOINT, ""));
 			config.setTokenEndpoint(o.getString(TOKEN_ENDPOINT, ""));
 			config.setCheckSessionIframe(o.getString(CHECK_SESSION_IFRAME, ""));
+			config.setEndSessionEndpoint(o.getString(END_SESSION_ENDPOINT, ""));
+			config.setUserInfoEndpoint(o.getString(USERINFO_ENDPOINT, ""));
 			config.setClientId(o.getString(CLIENT_ID, ""));
 			config.setClientSecret(o.getString(CLIENT_SECRET, ""));
 			config.setCallbackUri(o.getString(CALLBACK_URI, ""));
