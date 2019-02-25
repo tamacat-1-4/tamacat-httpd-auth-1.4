@@ -1,5 +1,5 @@
 Implementation-Title: tamacat-httpd-auth
-Implementation-Version: 1.4-20180531
+Implementation-Version: 1.4-20190225
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.tamacat.httpd.auth
 Bundle-Name: tamacat-httpd-auth
